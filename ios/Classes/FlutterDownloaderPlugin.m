@@ -266,7 +266,9 @@ static BOOL debug = YES;
 {
     NSArray *args = @[@(_callbackHandle), taskId, status, progress];
     if (initialized) {
-        [_callbackChannel invokeMethod:@"" arguments:args];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self-> _callbackChannel invokeMethod:@"" arguments:args];
+        });
     } else {
         [_eventQueue addObject:args];
     }
